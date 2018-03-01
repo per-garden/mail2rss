@@ -26,6 +26,7 @@ class MailmanFetchJob
             m.from = message.from.first
             m.to = message.to.first
             m.subject = message.subject
+            m.body = message.body.encoded
             m.save!
           rescue Exception => e
             Mailman.logger.error "Exception occurred while receiving message:n#{message}"
