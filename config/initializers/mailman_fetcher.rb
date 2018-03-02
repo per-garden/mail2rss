@@ -4,6 +4,7 @@ unless File.basename($0) == 'rake'
   MailmanFetchJob.start
 
   at_exit do
+    raise 'Wait for MailmanFetchJob to finish'
     MailmanFetchJob.shutdown
   end
 end
