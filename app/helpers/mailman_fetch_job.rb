@@ -21,16 +21,20 @@ class MailmanFetchJob
     while @keep_running
       Mailman::Application.run do
         default do
-          begin
-            m = Message.instance
-            m.from = message.from.first
-            m.to = message.to.first
-            m.subject = message.subject
-            m.body = message.body.encoded
-            m.save!
-          rescue Exception => e
-            Mailman.logger.error "Exception occurred while receiving message:n#{message}"
-            Mailman.logger.error [e, *e.backtrace].join("n")
+          sender = message.from.first
+          subject = message.subject
+          if (Rails.application.config.mailman[:senders].empty? || Rails.application.config.mailman[:senders].include?(sender)) && (Rails.application.config.mailman[:subjects].empty? || Rails.application.config.mailman[:subjects].include?(subject))
+            begin
+              m = Message.instance
+              m.from = sender
+              m.to = message.to.first
+              m.subject = subject
+              m.body = message.body.encoded
+              m.save!
+            rescue Exception => e
+              Mailman.logger.error "Exception occurred while receiving message:n#{message}"
+              Mailman.logger.error [e, *e.backtrace].join("n")
+            end
           end
         end
       end
