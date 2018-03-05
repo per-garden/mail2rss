@@ -28,8 +28,8 @@ class MailmanFetchJob
               m = Message.instance
               m.from = sender
               m.to = message.to.first
-              m.subject = subject
-              m.body = message.body.encoded
+              m.subject = subject.to_s.force_encoding('UTF-8')
+              m.body = message.body.to_s.force_encoding('UTF-8')
               m.save!
             rescue Exception => e
               Mailman.logger.error "Exception occurred while receiving message:n#{message}"
