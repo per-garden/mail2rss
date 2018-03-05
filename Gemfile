@@ -39,6 +39,8 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  # Solution for silly "readline" errors.  (https://github.com/rails/rails/issues/26658)
+  gem 'rb-readline'
 end
 
 group :development do
