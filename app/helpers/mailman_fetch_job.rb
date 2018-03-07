@@ -21,7 +21,7 @@ class MailmanFetchJob
     while @keep_running
       Mailman::Application.run do
         default do
-          sender = message.from.first
+          sender = message.from ? message.from.first : ''
           subject = message.subject
           if (Rails.application.config.mailman[:senders].empty? || Rails.application.config.mailman[:senders].include?(sender)) && (Rails.application.config.mailman[:subjects].empty? || Rails.application.config.mailman[:subjects].include?(subject))
             begin
