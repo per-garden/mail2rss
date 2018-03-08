@@ -52,6 +52,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Allow whole private network to connect
+  config.web_console.whitelisted_ips = '192.168.0.0/16'
+
   config.mailman = {
     poll_interval: 3,
     pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
