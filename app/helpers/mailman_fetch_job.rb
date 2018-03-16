@@ -29,7 +29,8 @@ class MailmanFetchJob
               m.from = sender
               m.to = message.to.first
               m.subject = subject.to_s.force_encoding('UTF-8')
-              m.body = message.body.to_s.force_encoding('UTF-8')
+              body = Mailman::Application.ascii8bit_to_iso88591(message.body.decoded).force_encoding('UTF-8')
+              m.body = body.include?('quoted-printable') ? body.split('quoted-printable')[1] : body
               m.save!
             rescue Exception => e
               Mailman.logger.error "Exception occurred while receiving message:n#{message}"
@@ -47,6 +48,26 @@ class MailmanFetchJob
     @keep_running = false
     while @running
       #
+    end
+  end
+
+  Mailman::Application.class_eval do
+    # In horrendous encoding hell, expected UTF-8 is in fact ASCII-8BIT
+    # Here we assume ISO-8859-1 origin (Western European)
+    def self.ascii8bit_to_iso88591(s)
+      retval = s.gsub(/.C3.85/, 'ä')
+      retval.gsub!(/.C3.84/, 'å')
+      retval.gsub!(/.C3.96/, 'ö')
+      retval.gsub!(/.C3.9C/, 'ü')
+      retval.gsub!(/.C3.89/, 'é')
+      retval.gsub!(/.C3.A4/, 'ä')
+      retval.gsub!(/.C3.A5/, 'å')
+      retval.gsub!(/.C3.B6/, 'ö')
+      retval.gsub!(/.C3.BC/, 'ü')
+      retval.gsub!(/.C3.A9/, 'é')
+      # Drop line breaks
+      retval.gsub!(/=\n/, '')
+      retval
     end
   end
 
