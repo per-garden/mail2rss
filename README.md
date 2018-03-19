@@ -23,10 +23,10 @@ Server side was tested and verified on Linux 4.4.14 (Slackware 14.2) during Marc
  - Rubygems 2.4.8
  - Bundler version 1.15.1
 
-and likewise on Raspbian GNU/Linux 8 during March 2018 using:
+and likewise on Linux 4.9.0-4-amd64, Debian 9.3 ("Stretch"), during March 2018 using:
 
- - ruby 2.3.1p112
- - Rubygems 2.6.6
+ - ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-linux]
+ - Rubygems 2.7.6
  - Bundler version 1.16.1
 
 Client side was tested and verified with Akregator 4.14.21.
@@ -83,8 +83,6 @@ Initiate the database(s):
  - bundle exec rake db:migrate
 
 No data seeding is required. The first email fetched by mail2rss will be stored as a singleton message. Note that there will always only be one single message, based on the most recent email fetched.
-
-Also note that only new emails will be fetched into mail2rss. Mail2rss must be up and running to detect any new emails. Mail received by the configured mail account when mail2rss is not up and running will be disregarded by mail2rss.
 
 Default mail retrieval method is POP3 without leaving a copy on mail server.
 
