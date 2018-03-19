@@ -90,7 +90,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.mailman = {
-    poll_interval: 3,
+    poll_interval: 30,
     pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
     # Mail into rss from these adresses. Empty list => rss from any sender
     senders: [],

@@ -56,7 +56,7 @@ Rails.application.configure do
   config.web_console.whitelisted_ips = '192.168.0.0/16'
 
   config.mailman = {
-    poll_interval: 3,
+    poll_interval: 30,
     pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
     # Mail into rss from these adresses. Empty list => rss from any sender
     senders: [],
