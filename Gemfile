@@ -41,6 +41,9 @@ group :development, :test do
   gem 'selenium-webdriver'
   # Solution for silly "readline" errors.  (https://github.com/rails/rails/issues/26658)
   gem 'rb-readline'
+  gem 'rspec-rails', '~> 3.7'
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
