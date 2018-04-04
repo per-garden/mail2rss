@@ -41,7 +41,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.mailman = {
-    poll_interval: 10,
+    poll_interval: 5,
     pop3: {server: 'localhost', port: 3110},
     # Mail into rss from these adresses. Empty list => rss from any sender
     senders: [],

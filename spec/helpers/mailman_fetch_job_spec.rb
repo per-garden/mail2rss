@@ -26,5 +26,6 @@ describe MailmanFetchJob, :type => :helper do
   after(:all) do
     @smtp_server.kill
     @pop_server.kill
+    Message.instance.destroy!
   end
 end
