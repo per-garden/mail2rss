@@ -28,6 +28,16 @@ describe MailmanFetchJob, :type => :helper do
     expect(Message.instance.body).to eq(@mail[:body])
   end
 
+  it 'stores message complying with restrictions' do
+    sender = "#{@mail[:from]}"
+    subject = "#{@mail[:subject]}"
+    Rails.application.config.mailman[:senders] = [sender]
+    Rails.application.config.mailman[:subjects] = [subject]
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).to eq(@mail[:body])
+  end
+
   it 'it does not store message if sender is not on the non-empty list of senders' do
     sender = "not_#{@mail[:from]}"
     Rails.application.config.mailman[:senders] = [sender]
