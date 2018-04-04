@@ -44,6 +44,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.7'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'post_office', '~> 1.0'
+  gem 'pony', '~> 1.12'
 end
 
 group :development do

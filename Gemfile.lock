@@ -109,6 +109,9 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    pony (1.12)
+      mail (>= 2.0)
+    post_office (1.0.0)
     public_suffix (3.0.2)
     puma (3.11.2)
     rack (2.0.4)
@@ -219,6 +222,8 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (~> 2.2)
   mailman (~> 0.7.3)
+  pony (~> 1.12)
+  post_office (~> 1.0)
   puma (~> 3.7)
   rails (~> 5.1.4)
   rb-readline

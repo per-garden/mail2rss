@@ -41,11 +41,16 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.mailman = {
-    poll_interval: 30,
-    pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
+    poll_interval: 10,
+    pop3: {server: 'localhost', port: 3110},
     # Mail into rss from these adresses. Empty list => rss from any sender
     senders: [],
     # Mail into rss with these subjects. Empty list => rss with any subject
     subjects: []
   }
+
+  config.post_office = {
+    smtp: 3025
+  }
+  
 end
