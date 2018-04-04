@@ -17,15 +17,39 @@ describe MailmanFetchJob, :type => :helper do
     @mail[:via_options] = {address: 'localhost', port: smtp}
   end
 
-  it 'fetches email' do
+  before(:each) do
+    Rails.application.config.mailman[:senders] = []
+    Rails.application.config.mailman[:subjects] = []
+  end
+
+  it 'stores any message if no restrictions' do
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
     expect(Message.instance.body).to eq(@mail[:body])
   end
 
+  it 'it does not store message if sender is not on the non-empty list of senders' do
+    sender = "not_#{@mail[:from]}"
+    Rails.application.config.mailman[:senders] = [sender]
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).not_to eq(@mail[:body])
+  end
+
+  it 'it does not store message if subject is not on the non-empty list of subjects' do
+    subject = "not_#{@mail[:subject]}"
+    Rails.application.config.mailman[:subjects] = [subject]
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).not_to eq(@mail[:body])
+  end
+
+  after(:each) do
+    Message.instance.destroy!
+  end
+
   after(:all) do
     @smtp_server.kill
     @pop_server.kill
-    Message.instance.destroy!
   end
 end
