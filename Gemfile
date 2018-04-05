@@ -46,6 +46,7 @@ group :development, :test do
   gem 'faker'
   gem 'post_office', '~> 1.0'
   gem 'pony', '~> 1.12'
+  gem 'rails-controller-testing'
 end
 
 group :development do
