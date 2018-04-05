@@ -57,6 +57,7 @@ class MailmanFetchJob
     def self.ascii8bit_to_iso88591(s)
       retval = s.gsub(/.C3.85/, 'ä')
       retval.gsub!(/.C3.84/, 'å')
+      retval.gsub!(/.C3.A5/, 'å')
       retval.gsub!(/.C3.96/, 'ö')
       retval.gsub!(/.C3.9C/, 'ü')
       retval.gsub!(/.C3.89/, 'é')
