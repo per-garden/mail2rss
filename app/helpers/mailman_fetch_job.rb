@@ -68,7 +68,7 @@ class MailmanFetchJob
       retval.gsub!(/.C3.A9/, 'é')
       # Drop line breaks
       retval.gsub!(/=\n/, '')
-      retval.gsub!(/\n/, '')
+      retval.gsub!(/\n\n/, '')
       retval
     end
   end
