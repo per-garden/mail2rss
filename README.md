@@ -127,12 +127,14 @@ Shutting down reports errors although everything is OK...
 
 # Tests
 
-TODO
+We use rspec for testing, mocking SMTP and POP3 using ports 3025 and 3110 respectively. Reconfigure in config/environments/test.rb if required. Then:
+
+```
+bundle exec rspec spec
+```
 
 
 # Known Issues and Future Work
-
- - The most imminent (and before doing anything else) step is to write rspec tests.
 
  - Neater shutdown, without reported errors.
 
@@ -140,6 +142,10 @@ TODO
 
  - Managing more than one single rss feed.
 
+
+# Releases
+
+ - v0.1: One message singleton RSS
 
 # Licence
 
