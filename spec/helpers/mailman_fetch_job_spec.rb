@@ -54,6 +54,22 @@ describe MailmanFetchJob, :type => :helper do
     expect(Message.instance.body).not_to eq(@mail[:body])
   end
 
+  it 'stores message if its body contains required string' do
+    body = "#{@mail[:body]}"
+    Rails.application.config.mailman[:bodies] = [body[0..5]]
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).to eq(@mail[:body])
+  end
+
+  it 'does not store message if its body does not contain required string' do
+    body = "#{@mail[:body]}"
+    Rails.application.config.mailman[:bodies] = [body[0..5].reverse]
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).not_to eq(@mail[:body])
+  end
+
   after(:each) do
     Message.instance.destroy!
   end

@@ -25,13 +25,22 @@ class MailmanFetchJob
           subject = message.subject
           if (Rails.application.config.mailman[:senders].empty? || Rails.application.config.mailman[:senders].include?(sender)) && (Rails.application.config.mailman[:subjects].empty? || Rails.application.config.mailman[:subjects].include?(subject))
             begin
-              m = Message.instance
-              m.from = sender
-              m.to = message.to.first
-              m.subject = subject.to_s.force_encoding('UTF-8')
               body = Mailman::Application.ascii8bit_to_iso88591(message.body.decoded).force_encoding('UTF-8')
-              m.body = body.include?('quoted-printable') ? body.split('quoted-printable')[1] : body
-              m.save!
+              body = body.include?('quoted-printable') ? body.split('quoted-printable')[1] : body
+              bodied = Rails.application.config.mailman[:bodies].empty?
+              unless bodied
+                Rails.application.config.mailman[:bodies].each do |bd|
+                  bodied ||= body.include?(bd)
+                end
+              end
+              if bodied
+                m = Message.instance
+                m.from = sender
+                m.to = message.to.first
+                m.subject = subject.to_s.force_encoding('UTF-8')
+                m.body = body
+                m.save!
+              end
             rescue Exception => e
               Mailman.logger.error "Exception occurred while receiving message:n#{message}"
               Mailman.logger.error [e, *e.backtrace].join("n")

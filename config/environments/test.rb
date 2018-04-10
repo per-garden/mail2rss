@@ -46,7 +46,9 @@ Rails.application.configure do
     # Mail into rss from these adresses. Empty list => rss from any sender
     senders: [],
     # Mail into rss with these subjects. Empty list => rss with any subject
-    subjects: []
+    subjects: [],
+    # Require mail into rss to contain any of these strings in its body
+    bodies: []
   }
 
   config.post_office = {
