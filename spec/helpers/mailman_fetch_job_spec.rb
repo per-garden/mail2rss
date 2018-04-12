@@ -20,6 +20,8 @@ describe MailmanFetchJob, :type => :helper do
   before(:each) do
     Rails.application.config.mailman[:senders] = []
     Rails.application.config.mailman[:subjects] = []
+    Rails.application.config.mailman[:bodies] = []
+    Rails.application.config.mailman[:body_pre_filter] = ''
   end
 
   it 'stores any message if no restrictions' do
@@ -68,6 +70,15 @@ describe MailmanFetchJob, :type => :helper do
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
     expect(Message.instance.body).not_to eq(@mail[:body])
+  end
+
+  it 'only stores message text after non-empty filter string' do
+    body = "#{@mail[:body]}"
+    filter = body[0..5]
+    Rails.application.config.mailman[:body_pre_filter] = filter
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.instance.body).not_to include(filter)
   end
 
   after(:each) do

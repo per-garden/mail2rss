@@ -48,7 +48,9 @@ Rails.application.configure do
     # Mail into rss with these subjects. Empty list => rss with any subject
     subjects: [],
     # Require mail into rss to contain any of these strings in its body
-    bodies: []
+    bodies: [],
+    # Only include body text after this filter string into message
+    body_pre_filter: ''
   }
 
   config.post_office = {

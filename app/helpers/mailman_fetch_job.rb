@@ -38,7 +38,14 @@ class MailmanFetchJob
                 m.from = sender
                 m.to = message.to.first
                 m.subject = subject.to_s.force_encoding('UTF-8')
-                m.body = body
+                filter = Rails.application.config.mailman[:body_pre_filter]
+                if filter.blank?
+                  m.body = body
+                else
+                  # Message is everything after filter
+                  filter = '.*' + filter
+                  m.body = body.gsub(/#{filter}/, '')
+                end
                 m.save!
               end
             rescue Exception => e
@@ -65,7 +72,7 @@ class MailmanFetchJob
     # Here we assume ISO-8859-1 origin (Western European)
     def self.ascii8bit_to_iso88591(s)
       retval = s.gsub(/.C3.85/, 'ä')
-      retval.gsub!(/.C3.84/, 'å')
+      retval.gsub!(/.C3.84/, 'ä')
       retval.gsub!(/.C3.A5/, 'å')
       retval.gsub!(/.C3.96/, 'ö')
       retval.gsub!(/.C3.9C/, 'ü')
