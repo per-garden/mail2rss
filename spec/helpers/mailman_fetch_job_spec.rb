@@ -27,7 +27,7 @@ describe MailmanFetchJob, :type => :helper do
   it 'stores any message if no restrictions' do
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).to eq(@mail[:body])
+    expect(Message.first.body).to eq(@mail[:body])
   end
 
   it 'stores message complying with restrictions' do
@@ -37,7 +37,7 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:subjects] = [subject]
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).to eq(@mail[:body])
+    expect(Message.first.body).to eq(@mail[:body])
   end
 
   it 'it does not store message if sender is not on the non-empty list of senders' do
@@ -45,7 +45,7 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:senders] = [sender]
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).not_to eq(@mail[:body])
+    expect(Message.first ? Message.first.body : '').not_to eq(@mail[:body])
   end
 
   it 'it does not store message if subject is not on the non-empty list of subjects' do
@@ -53,7 +53,7 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:subjects] = [subject]
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).not_to eq(@mail[:body])
+    expect(Message.first ? Message.first.body : '').not_to eq(@mail[:body])
   end
 
   it 'stores message if its body contains required string' do
@@ -61,7 +61,7 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:bodies] = [body[0..5]]
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).to eq(@mail[:body])
+    expect(Message.first.body).to eq(@mail[:body])
   end
 
   it 'does not store message if its body does not contain required string' do
@@ -69,7 +69,7 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:bodies] = [body[0..5].reverse]
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).not_to eq(@mail[:body])
+    expect(Message.first ? Message.first.body : '').not_to eq(@mail[:body])
   end
 
   it 'only stores message text after non-empty filter string' do
@@ -78,11 +78,24 @@ describe MailmanFetchJob, :type => :helper do
     Rails.application.config.mailman[:body_pre_filter] = filter
     Pony.mail(@mail)
     sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.instance.body).not_to include(filter)
+    expect(Message.first.body).not_to include(filter)
+  end
+
+  it 'stores one message for each accepted email' do
+    Pony.mail(@mail)
+    @mail[:subject] = Faker::Hacker.adjective.capitalize + ' ' + Faker::Hacker.noun
+    @mail[:body] = Faker::Hacker.say_something_smart
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.count).to eq 2
+  end
+
+  it 'only stores the configured maximum number of messages' do
+    skip 'Config for this'
   end
 
   after(:each) do
-    Message.instance.destroy!
+    Message.destroy_all
   end
 
   after(:all) do

@@ -34,7 +34,7 @@ class MailmanFetchJob
                 end
               end
               if bodied
-                m = Message.instance
+                m = Message.new
                 m.from = sender
                 m.to = message.to.first
                 m.subject = subject.to_s.force_encoding('UTF-8')

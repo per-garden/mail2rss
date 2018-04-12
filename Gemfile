@@ -59,5 +59,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'mailman', '~> 0.7.3'
-gem 'acts_as_singleton', '~> 0.0.8'
 gem 'celluloid'
