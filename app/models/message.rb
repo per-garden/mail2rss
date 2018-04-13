@@ -1,4 +1,5 @@
 class Message < ApplicationRecord
+  belongs_to :feed
   after_initialize :init
 
   def init

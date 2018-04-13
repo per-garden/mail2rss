@@ -23,37 +23,40 @@ class MailmanFetchJob
         default do
           sender = message.from ? message.from.first : ''
           subject = message.subject
-          if (Rails.application.config.mailman[:senders].empty? || Rails.application.config.mailman[:senders].include?(sender)) && (Rails.application.config.mailman[:subjects].empty? || Rails.application.config.mailman[:subjects].include?(subject))
-            begin
-              body = Mailman::Application.ascii8bit_to_iso88591(message.body.decoded).force_encoding('UTF-8')
-              body = body.include?('quoted-printable') ? body.split('quoted-printable')[1] : body
-              bodied = Rails.application.config.mailman[:bodies].empty?
-              unless bodied
-                Rails.application.config.mailman[:bodies].each do |bd|
-                  bodied ||= body.include?(bd)
+          Feed.all.each do |feed|
+            if (!feed.senders || feed.senders.empty? || feed.senders.include?(sender)) && (!feed.subjects || feed.subjects.empty? || feed.subjects.include?(subject))
+              begin
+                body = Mailman::Application.ascii8bit_to_iso88591(message.body.decoded).force_encoding('UTF-8')
+                body = body.include?('quoted-printable') ? body.split('quoted-printable')[1] : body
+                bodied = !feed.bodies || feed.bodies.empty?
+                unless bodied
+                  feed.bodies.each do |bd|
+                    bodied ||= body.include?(bd)
+                  end
                 end
-              end
-              if bodied
-                m = Message.new
-                m.from = sender
-                m.to = message.to.first
-                m.subject = subject.to_s.force_encoding('UTF-8')
-                filter = Rails.application.config.mailman[:body_pre_filter]
-                if filter.blank?
-                  m.body = body
-                else
-                  # Message is everything after filter
-                  filter = '.*' + filter
-                  m.body = body.gsub(/#{filter}/, '')
+                if bodied
+                  m = Message.new
+                  m.from = sender
+                  m.to = message.to.first
+                  m.subject = subject.to_s.force_encoding('UTF-8')
+                  filter = feed.body_pre_filter
+                  if filter.blank?
+                    m.body = body
+                  else
+                    # Message is everything after filter
+                    filter = '.*' + filter
+                    m.body = body.gsub(/#{filter}/, '')
+                  end
+                  Message.count < feed.count ? nil : Message.order(created_at: :asc).first.destroy!
+                  m.feed = feed
+                  m.save!
                 end
-                Message.count < Rails.application.config.messages[:count] ? nil : Message.order(created_at: :asc).first.destroy!
-                m.save!
+              rescue Exception => e
+                Mailman.logger.error "Exception occurred while receiving message:n#{message}"
+                Mailman.logger.error [e, *e.backtrace].join("n")
               end
-            rescue Exception => e
-              Mailman.logger.error "Exception occurred while receiving message:n#{message}"
-              Mailman.logger.error [e, *e.backtrace].join("n")
             end
-          end
+          end # Feed.all.each
         end
       end
     end
