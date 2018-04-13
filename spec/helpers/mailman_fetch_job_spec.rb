@@ -91,7 +91,16 @@ describe MailmanFetchJob, :type => :helper do
   end
 
   it 'only stores the configured maximum number of messages' do
-    skip 'Config for this'
+    Rails.application.config.messages[:count] = 2
+    Pony.mail(@mail)
+    @mail[:subject] = Faker::Hacker.adjective.capitalize + ' ' + Faker::Hacker.noun
+    @mail[:body] = Faker::Hacker.say_something_smart
+    Pony.mail(@mail)
+    @mail[:subject] = Faker::Hacker.adjective.capitalize + ' ' + Faker::Hacker.noun
+    @mail[:body] = Faker::Hacker.say_something_smart
+    Pony.mail(@mail)
+    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
+    expect(Message.count).to eq 2
   end
 
   after(:each) do

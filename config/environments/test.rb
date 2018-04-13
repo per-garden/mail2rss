@@ -56,5 +56,10 @@ Rails.application.configure do
   config.post_office = {
     smtp: 3025
   }
+
+  config.messages = {
+    # Store maximum this number of messages. Discard oldest as new ones arrive.
+    count: 2
+  }
   
 end

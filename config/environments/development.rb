@@ -67,4 +67,10 @@ Rails.application.configure do
     # Only include body text after this filter string into message
     body_pre_filter: ''
   }
+
+  config.messages = {
+    # Store maximum this number of messages. Discard oldest as new ones arrive.
+    count: 2
+  }
+
 end

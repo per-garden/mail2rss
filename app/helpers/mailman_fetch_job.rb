@@ -46,6 +46,7 @@ class MailmanFetchJob
                   filter = '.*' + filter
                   m.body = body.gsub(/#{filter}/, '')
                 end
+                Message.count < Rails.application.config.messages[:count] ? nil : Message.order(created_at: :asc).first.destroy!
                 m.save!
               end
             rescue Exception => e
