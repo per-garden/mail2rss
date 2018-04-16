@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  root :to => "messages#index", :format => 'rss'
+  root :to => "feeds#index"
+  get '/:name' => 'feeds#show', :format => 'rss'
 end

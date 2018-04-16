@@ -58,19 +58,6 @@ Rails.application.configure do
   config.mailman = {
     poll_interval: 30,
     pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
-    # Mail into rss from these adresses. Empty list => rss from any sender
-    senders: [],
-    # Mail into rss with these subjects. Empty list => rss with any subject
-    subjects: [],
-    # Require mail into rss to contain any of these strings in its body
-    bodies: [],
-    # Only include body text after this filter string into message
-    body_pre_filter: ''
-  }
-
-  config.messages = {
-    # Store maximum this number of messages. Discard oldest as new ones arrive.
-    count: 2
   }
 
 end

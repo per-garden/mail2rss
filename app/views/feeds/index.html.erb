@@ -1,0 +1,42 @@
+<table border="1" cellpadding="2" cellspacing="2" width="100%">
+  <tr>
+    <th valign="top">Id</th>
+    <th valign="top">Name</th>
+    <th valign="top">Count</th>
+    <th valign="top">Senders</th>
+    <th valign="top">Subjects</th>
+    <th valign="top">Bodies</th>
+    <th valign="top">Body Pre Filter</th>
+    <th valign="top">Url</th>
+  </tr>
+  <tbody>
+  <% Feed.all.each do |feed| %>
+    <tr>
+        <td valign="top">
+          <%= feed.id %>
+        </td>
+        <td valign="top">
+          <%= feed.name %>
+        </td>
+        <td valign="top">
+          <%= feed.count %>
+        </td>
+        <td valign="top">
+          <%= feed.senders %>
+        </td>
+        <td valign="top">
+          <%= feed.subjects %>
+        </td>
+        <td valign="top">
+          <%= feed.bodies %>
+        </td>
+        <td valign="top">
+          <%= feed.body_pre_filter %>
+        </td>
+        <td valign="top">
+          <a href="<%= root_url + '/' + feed.name %>"><%= root_url + '/' + feed.name %></a>
+        </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

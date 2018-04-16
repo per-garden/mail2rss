@@ -3,9 +3,9 @@ xml.rss :version => "2.0" do
   xml.channel do
     xml.title "Mail2Rss"
     xml.description ""
-    xml.link root_url
+    xml.link root_url + (@feed ? @feed.name : '')
 
-    @messages.each do |message|
+    (@feed ? @feed.messages : []).each do |message|
       xml.item do
         xml.title message.subject
         xml.author message.from

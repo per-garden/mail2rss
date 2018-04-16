@@ -43,23 +43,10 @@ Rails.application.configure do
   config.mailman = {
     poll_interval: 2,
     pop3: {server: 'localhost', port: 3110},
-    # Mail into rss from these adresses. Empty list => rss from any sender
-    senders: [],
-    # Mail into rss with these subjects. Empty list => rss with any subject
-    subjects: [],
-    # Require mail into rss to contain any of these strings in its body
-    bodies: [],
-    # Only include body text after this filter string into message
-    body_pre_filter: ''
   }
 
   config.post_office = {
     smtp: 3025
-  }
-
-  config.messages = {
-    # Store maximum this number of messages. Discard oldest as new ones arrive.
-    count: 2
   }
   
 end
