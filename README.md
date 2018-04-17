@@ -50,10 +50,6 @@ Adapt files config/environments/development.rb and config/environments/productio
   config.mailman = {
     poll_interval: 30,
     pop3: {server: 'pop.googlemail.com', port: 995, ssl: 'true', username: 'USERNAME', password: 'PASSWORD'},
-    # Mail into rss from these adresses. Empty list => rss from any sender
-    senders: [],
-    # Mail into rss with these subjects. Empty list => rss with any subject
-    subjects: []
   }
 ```
 
@@ -80,9 +76,9 @@ Go to directory as created by git clone. Then type:
 
 Initiate the database(s):
 
- - bundle exec rake db:migrate
+ - bundle exec rake db:setup
 
-No data seeding is required. The first email fetched by mail2rss will be stored as a singleton message. Note that there will always only be one single message, based on the most recent email fetched.
+Arriving messages are stored into feeds, providing rss to clients. At least one feed is required. Create feed using the Rails console. E.g. `'Feed.create(name: 'default')`
 
 Default mail retrieval method is POP3 without leaving a copy on mail server.
 
@@ -108,7 +104,7 @@ Puma starting in single mode...
 Use Ctrl-C to stop
 ```
 
-Now access the application at e.g. 'http://my_host.my_domain:3000' (For local testing this will be 'http://localhost:3000')
+Now access the application at e.g. 'http://my_host.my_domain:3000' (For local testing this will be 'http://localhost:3000'). This will display an overview web page listing available feeds. To get rss, use the explicit feed url. E.g. 'http://localhost:3000/default'.
 
 Stopping:
 
@@ -137,10 +133,6 @@ bundle exec rspec spec
 # Known Issues and Future Work
 
  - Neater shutdown, without reported errors.
-
- - Storing more messages.
-
- - Managing more than one single rss feed.
 
 
 # Releases
