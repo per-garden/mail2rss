@@ -78,7 +78,7 @@ Initiate the database(s):
 
  - bundle exec rake db:setup
 
-Arriving messages are stored into feeds, providing rss to clients. At least one feed is required. Create feed using the Rails console. E.g. `'Feed.create(name: 'default')`
+Arriving messages are stored into feeds, providing rss to clients. At least one feed is required. Create feed using the Rails console. E.g. `Feed.create(name: 'default')`
 
 Default mail retrieval method is POP3 without leaving a copy on mail server.
 
@@ -104,7 +104,7 @@ Puma starting in single mode...
 Use Ctrl-C to stop
 ```
 
-Now access the application at e.g. 'http://my_host.my_domain:3000' (For local testing this will be 'http://localhost:3000'). This will display an overview web page listing available feeds. To get rss, use the explicit feed url. E.g. 'http://localhost:3000/default'.
+Now access the application at e.g. http://my_host.my_domain:3000 (For local testing this will be http://localhost:3000). This will display an overview web page listing available feeds. To get rss, use the explicit feed url. E.g. http://localhost:3000/default.
 
 Stopping:
 
