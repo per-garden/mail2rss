@@ -36,7 +36,7 @@ Client side was tested and verified with Akregator 4.14.21.
 
 Download from GitHub repository:
 
- - 'git clone https://github.com/per-garden/mail2rss.git'.
+ - git clone https://github.com/per-garden/mail2rss.git
 
 
 
