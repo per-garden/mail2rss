@@ -74,16 +74,6 @@ describe MailmanFetchJob, :type => :helper do
     expect(Message.first ? Message.first.body : '').not_to eq(@mail[:body])
   end
 
-  it 'only stores message text after non-empty filter string' do
-    body = "#{@mail[:body]}"
-    filter = body[0..5]
-    @feed.body_pre_filter = filter
-    @feed.save!
-    Pony.mail(@mail)
-    sleep(Rails.application.config.mailman[:poll_interval].to_i * 2)
-    expect(Message.first.body).not_to include(filter)
-  end
-
   it 'stores one message for each accepted email' do
     Pony.mail(@mail)
     @mail[:subject] = Faker::Hacker.adjective.capitalize + ' ' + Faker::Hacker.noun

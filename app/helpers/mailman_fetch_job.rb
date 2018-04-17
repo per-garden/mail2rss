@@ -39,14 +39,7 @@ class MailmanFetchJob
                   m.from = sender
                   m.to = message.to.first
                   m.subject = subject.to_s.force_encoding('UTF-8')
-                  filter = feed.body_pre_filter
-                  if filter.blank?
-                    m.body = body
-                  else
-                    # Message is everything after filter
-                    filter = '.*' + filter
-                    m.body = body.gsub(/#{filter}/, '')
-                  end
+                  m.body = body
                   Message.count < feed.count ? nil : Message.order(created_at: :asc).first.destroy!
                   m.feed = feed
                   m.save!

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417073947) do
+ActiveRecord::Schema.define(version: 20180417093036) do
 
   create_table "feeds", force: :cascade do |t|
     t.string "name"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20180417073947) do
     t.text "senders"
     t.text "subjects"
     t.text "bodies"
-    t.string "body_pre_filter"
   end
 
   create_table "messages", force: :cascade do |t|
