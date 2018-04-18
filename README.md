@@ -86,7 +86,12 @@ Default mail retrieval method is POP3 without leaving a copy on mail server.
 
 # Usage
 
-Be positioned in the mail2rss directory. Then start rails server:
+Be positioned in the mail2rss directory.
+
+ - run `rake secret` and create a config/secrets.yml file
+ - RAILS_ENV=production rake assets:precompile
+
+Then start rails server:
 
 ```html
 per@lex14:~/projects/mail2rss$ rails s
@@ -134,6 +139,7 @@ bundle exec rspec spec
 
  - Neater shutdown, without reported errors.
  - Non-ascii8 characters in subject line causes message not to be saved
+ - Assets load problem in production mode. Ugly log but everything works.
 
 
 # Releases
