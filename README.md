@@ -133,6 +133,7 @@ bundle exec rspec spec
 # Known Issues and Future Work
 
  - Neater shutdown, without reported errors.
+ - Non-ascii8 characters in subject line causes message not to be saved
 
 
 # Releases
