@@ -145,6 +145,7 @@ bundle exec rspec spec
 # Releases
 
  - v0.1: One message singleton RSS
+ - v0.2: Several messages, multiple feeds
 
 # Licence
 
