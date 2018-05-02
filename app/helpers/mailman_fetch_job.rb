@@ -68,8 +68,7 @@ class MailmanFetchJob
     # In horrendous encoding hell, expected UTF-8 is in fact ASCII-8BIT
     # Here we assume ISO-8859-1 origin (Western European)
     def self.ascii8bit_to_iso88591(s)
-      retval = s.gsub(/.C3.85/, 'ä')
-      retval.gsub!(/.C3.84/, 'ä')
+      retval = s.gsub(/.C3.84/, 'ä')
       retval.gsub!(/.C3.A5/, 'å')
       retval.gsub!(/.C3.96/, 'ö')
       retval.gsub!(/.C3.9C/, 'ü')
